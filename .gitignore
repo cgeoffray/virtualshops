@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 web/bundles/
 app/bootstrap.php.cache
 app/cache/*
@@ -7,3 +8,18 @@ vendor
 composer.phar
 /app/config/parameters.yml
 nbproject/
+=======
+# Bootstrap
+app/bootstrap*
+
+# Symfony directories
+vendor/*
+*/logs/*
+*/cache/*
+web/uploads/*
+web/bundles/*
+
+# Configuration files
+app/config/parameters.ini
+app/config/parameters.yml
+>>>>>>> 09b181df129cfce0b9d2eeca78c933081876bea5
