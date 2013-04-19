@@ -1,0 +1,46 @@
+parameters:
+#    s2n_show.example.class: S2n\ShowBundle\Example
+
+services:
+#    s2n_show.example:
+#        class: %s2n_show.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]
+  sonata.admin.user:
+    class: Listreat\MainBundle\Admin\UserAdmin
+    tags:
+      - { name: sonata.admin, manager_type: orm, group: "Users", label: "User" }
+    arguments: [ null, Listreat\UserBundle\Entity\User, SonataAdminBundle:CRUD ]
+    calls:
+      - [ setTranslationDomain, [ ListreatMainBundle ] ]
+      
+  sonata.admin.friend:
+    class: Listreat\MainBundle\Admin\FriendAdmin
+    tags:
+      - { name: sonata.admin, manager_type: orm, group: "Users", label: "Friend" }
+    arguments: [ null, Listreat\UserBundle\Entity\Friend, SonataAdminBundle:CRUD ]
+    calls:
+      - [ setTranslationDomain, [ ListreatMainBundle ] ]
+      
+  sonata.admin.shop:
+    class: Listreat\MainBundle\Admin\ShopAdmin
+    tags:
+      - { name: sonata.admin, manager_type: orm, group: "Shops", label: "Shop" }
+    arguments: [ null, Listreat\MainBundle\Entity\Shop, SonataAdminBundle:CRUD ]
+    calls:
+      - [ setTranslationDomain, [ ListreatMainBundle ] ]
+
+  sonata.admin.item:
+    class: Listreat\MainBundle\Admin\ItemAdmin
+    tags:
+      - { name: sonata.admin, manager_type: orm, group: "Shops", label: "Item" }
+    arguments: [ null, Listreat\MainBundle\Entity\Item, SonataAdminBundle:CRUD ]
+    calls:
+      - [ setTranslationDomain, [ ListreatMainBundle ] ]
+  
+  sonata.admin.follow:
+    class: Listreat\MainBundle\Admin\FollowAdmin
+    tags:
+      - { name: sonata.admin, manager_type: orm, group: "Links", label: "Follow" }
+    arguments: [ null, Listreat\MainBundle\Entity\Follow, SonataAdminBundle:CRUD ]
+    calls:
+      - [ setTranslationDomain, [ ListreatMainBundle ] ]

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>{% block title %}LisTreat{% endblock %}</title>
+        {% block stylesheets %}
+            <link rel="stylesheet" href="{{ asset('bundles/webprofiler/css/profiler.css') }}" type="text/css" media="all" />
+            <link rel="stylesheet" href="{{ asset('bundles/webprofiler/css/theme/jquery-custom.min.css') }}" type="text/css" media="all" />
+        {% endblock %}
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+    </head>
+    
+    
+    <body>
+        {% block body %}
+            <header>
+            {% block header %}
+                <nav>
+                    <div class="navigation">
+                        <div class="titre-listreat">LisTreat</div>
+                        <div><a href="{{ path('shops_list') }}">List</a></div>
+                        <div><a href="{{ path('myshops') }}">My Shops</a></div>
+                        <div><a href="{{ path('shops_create') }}">New Shop</a></div>
+                        {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                        <div class="login">
+                            <a href="{{ path('profil', {id: app.user.id}) }}">
+                                {{app.user.username}}
+                            </a> - <a href="{{ path('fos_user_security_logout') }}">
+                                    {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
+                            </a>
+                        </div>
+                        {% else %}
+                        <div class="login"><a href="{{ path('fos_user_security_login') }}">{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a></div>
+                        {% endif %}
+                    </div>
+                </nav>
+            {% endblock %}
+            </header>
+            
+            <div class="mainContainer">
+            {% block content %}{% endblock %}
+            </div>
+        {% endblock %}
+            
+        {% block javascripts %}
+            <script src={{asset('bundles/webprofiler/js/jquery-1.9.1.js')}}></script>
+            <script src={{asset('bundles/webprofiler/js/jquery-ui-1.10.2.custom.min.js')}}></script>
+        {% endblock %}
+    </body>
+</html>

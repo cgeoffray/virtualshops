@@ -1,0 +1,124 @@
+{% extends '::layout.html.twig' %}
+
+{% block title %}{{ shop.name }} - edit{% endblock%}
+
+{% block content %}
+<br/>
+<h2>Edit {{ shop.name }}:</h2><br/>
+
+<div class="well">
+  <form method="post" {{ form_enctype(form) }}>
+    {{ form_widget(form) }}
+    <input type="submit" class="btn btn-primary" />
+  </form>
+</div>
+
+<br/>
+<a href={{path("items_create", {"shop": shop.id})}}>New product</a>
+<br/>
+
+<div id="item-list">
+    {% for item in items %}
+    <div class="shop-list">
+        <div>
+            <h4>{{item.title}}</h4>
+            <p>{{item.description}}</p>
+        </div>
+        <div>
+            <a href="{{item.link}}">Buy it</a> <br/>
+            <a href={{path("items_update", {"item": item.id})}}>Edit</a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+
+{% endblock %}
+
+{#{% block javascripts %}
+            <script src={{asset('bundles/webprofiler/js/jquery-1.9.1.js')}}></script>
+            <script src={{asset('bundles/webprofiler/js/jquery-ui-1.10.2.custom.min.js')}}></script>
+            
+            <script type="text/javascript">
+            $(document).ready(function() {
+              
+              // On récupère la balise <div> en question qui contient l'attribut « data-prototype » qui nous intéresse.
+              var $container = $('div#listreat_mainbundle_shoptype_items');
+
+              // On ajoute un lien pour ajouter une nouvelle catégorie
+              var $lienAjout = $('<a href="#" id="ajout_item" class="btn">Add a product</a>');
+              $container.append($lienAjout);
+
+              // On ajoute un nouveau champ à chaque clic sur le lien d'ajout.
+              $lienAjout.click(function(e) {
+                ajouterCategorie($container);
+                e.preventDefault(); // évite qu'un # apparaisse dans l'URL
+                return false;
+              });
+
+              // On définit un compteur unique pour nommer les champs qu'on va ajouter dynamiquement
+              var index = $container.find(':input').length;
+              
+              // On ajoute un premier champ directement s'il n'en existe pas déjà un (cas d'un nouvel article par exemple).
+              if (index == 0) {
+                ajouterCategorie($container);
+              } else {
+                // Pour chaque catégorie déjà existante, on ajoute un lien de suppression
+                  //var i = 0;
+                  $container.children('div').each(function() {
+                  //var id = $('#listreat_mainbundle_shoptype_items_'+i+'_id').val();
+                  ajouterLienSuppression($(this));
+                  //i++;
+                });
+              }
+
+              // La fonction qui ajoute un formulaire Categorie
+              function ajouterCategorie($container) {
+                // Dans le contenu de l'attribut « data-prototype », on remplace :
+                // - le texte "__name__label__" qu'il contient par le label du champ
+                // - le texte "__name__" qu'il contient par le numéro du champ
+                var $prototype = $($container.attr('data-prototype').replace(/__name__label__/g, 'Product n°' + (index+1))
+                                                                    .replace(/__name__/g, index));
+
+                // On ajoute au prototype un lien pour pouvoir supprimer la catégorie
+                ajouterLienSuppression($prototype);
+
+                // On ajoute le prototype modifié à la fin de la balise <div>
+                $container.append($prototype);
+
+                // Enfin, on incrémente le compteur pour que le prochain ajout se fasse avec un autre numéro
+                index++;
+              }
+
+              // La fonction qui ajoute un lien de suppression d'une catégorie
+              function ajouterLienSuppression($prototype) {
+                // Création du lien
+                $lienSuppression = $('<a href="#" class="btn btn-danger">Delete</a>');
+
+                // Ajout du lien
+                $prototype.append($lienSuppression);
+
+                // Ajout du listener sur le clic du lien
+                $lienSuppression.click(function(e) {
+                  
+                  /*if (id) {
+                    var serviceURL = "http://localhost:8888/LTCoaching/web/app_dev.php/api/";
+                    $.ajax({
+                      type: "POST",
+                      url: serviceURL + "items/delete/" + id,
+                      data: "",
+                      success: function(data) {
+                          alert(data);
+                      }
+                    });
+                  }*/
+                  $prototype.remove();
+                  e.preventDefault(); // évite qu'un # apparaisse dans l'URL
+                  return false;
+                });
+              }
+            });
+            </script>
+{% endblock %}#}
+
+

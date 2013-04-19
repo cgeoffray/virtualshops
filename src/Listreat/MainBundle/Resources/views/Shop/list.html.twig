@@ -1,0 +1,78 @@
+{% extends '::layout.html.twig' %}
+
+{% block title %}Shops List{% endblock%}
+
+{% block content %}
+<br/>
+<h1>Shops List</h1>
+
+<div id="item-list">
+    {% for shop in shops %}
+        <div class="shop-list">
+            <div>
+                <h3>{{shop.name}}</h3>
+                <p>{{shop.description}}</p>
+            </div>
+            <div>
+                <a href={{path("shops_display", {"shop": shop.id})}}>Entrer</a> <br/>
+                <a href={{path("shops_update", {"shop": shop.id})}}>Éditer</a>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+<br/><br/>
+<h1>Users:</h1>
+
+<div id="user-list">
+    {% for user in users %}
+        <div class="shop-list">
+            <div>
+                <h3>{{user.username}}</h3>
+                <p>email: {{user.email}}</p>
+            </div>
+            <div>
+                <a href="#" id="friendship" onclick="friend({{app.user.id}}, {{user.id}});" class="friendship">Add to friends</a>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+<br/><br/>
+<h1>Friends:</h1>
+
+<div id="user-list">
+    {% for f in friends %}
+        <div class="shop-list">
+            <div>
+                <h3>{{f.friend.username}}</h3>
+                <p>email: {{f.friend.email}}</p>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+{% endblock %}
+
+{% block javascripts %}
+            <script src={{asset('bundles/webprofiler/js/jquery-1.9.1.js')}}></script>
+            <script src={{asset('bundles/webprofiler/js/jquery-ui-1.10.2.custom.min.js')}}></script>
+            
+            <script type="text/javascript">
+                function friend (user, friend) {
+                    var serviceURL = "http://localhost:8888/LTCoaching/web/app_dev.php/api/";
+                    $.ajax({
+                        type: "POST",
+                        url: serviceURL + "friend/" + user + "/" + friend,
+                        data: "",
+                        success: function(data) {
+                            alert(data);
+                            $('#friend').text('Friend');
+                            $('#follow').attr('onclick', '');
+                        }
+                    });
+                    e.preventDefault(); // évite qu'un # apparaisse dans l'URL
+                    return false;
+                }
+            </script>
+{% endblock %}

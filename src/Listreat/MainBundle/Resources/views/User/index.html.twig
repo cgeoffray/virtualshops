@@ -1,0 +1,15 @@
+{% extends '::layout.html.twig' %}
+
+{% block title %}{% endblock%}
+
+{% block content %}
+{% if user.id == app.user.id %}
+<a href="{{path("profil_update", {id: user.id})}}">Update my profil</a>
+{% endif %}
+
+<div>
+    {{ user.username }}
+</div>
+<div>
+</div>
+{% endblock %}

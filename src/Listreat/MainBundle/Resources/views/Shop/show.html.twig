@@ -1,0 +1,75 @@
+{% extends '::layout.html.twig' %}
+
+{% block title %}{{shop.name}}{% endblock%}
+
+{% block content %}
+<br/>
+<div>
+    <h2>{{shop.name}}</h2>
+    <p>{{shop.description}}</p>
+</div>
+<div>
+    {% if followed == false %}
+    <a href="#" id="follow" onclick="follow({{app.user.id}}, {{shop.id}});" class="follow">Follow</a>
+    {% else %}
+    <a href="#" id="follow" onclick="unfollow({{app.user.id}}, {{shop.id}});" class="follow">Unfollow</a>
+    {% endif %}
+</div>
+<br/>
+
+<h4>Products:</h4>
+
+<div id="item-list">
+    {% for item in items %}
+        <div class="item-list">
+            <div>
+                <h3>{{item.title}}</h3>
+                <p>{{item.description}}</p>
+            </div>
+            <div>
+                <a href="{{item.link}}" class="link">Buy it</a>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+{% endblock %}
+
+{% block javascripts %}
+            <script src={{asset('bundles/webprofiler/js/jquery-1.9.1.js')}}></script>
+            <script src={{asset('bundles/webprofiler/js/jquery-ui-1.10.2.custom.min.js')}}></script>
+            
+            <script type="text/javascript">
+                function follow (user, shop) {
+                    var serviceURL = "http://localhost:8888/LTCoaching/web/app_dev.php/api/";
+                    $.ajax({
+                        type: "POST",
+                        url: serviceURL + "follow/" + user + "/" + shop,
+                        data: "",
+                        success: function(data) {
+                            alert(data);
+                            $('#follow').text('Unfollow');
+                            $('#follow').attr('onclick', 'unfollow({{app.user.id}}, {{shop.id}});');
+                        }
+                    });
+                    e.preventDefault(); // évite qu'un # apparaisse dans l'URL
+                    return false;
+                }
+                
+                function unfollow (user, shop) {
+                    var serviceURL = "http://localhost:8888/LTCoaching/web/app_dev.php/api/";
+                    $.ajax({
+                        type: "POST",
+                        url: serviceURL + "unfollow/" + user + "/" + shop,
+                        data: "",
+                        success: function(data) {
+                            alert(data);
+                            $('#follow').text('Follow');
+                            $('#follow').attr('onclick', 'follow({{app.user.id}}, {{shop.id}});');
+                        }
+                    });
+                    e.preventDefault(); // évite qu'un # apparaisse dans l'URL
+                    return false;
+                }
+            </script>
+{% endblock %}

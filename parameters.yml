@@ -1,0 +1,14 @@
+hparameters:
+    database_driver: pdo_mysql
+    database_host: localhost
+    database_port: null
+    database_name: app_listreat
+    database_user: root
+    database_password: ch4ngeMe
+    mailer_transport: smtp
+    mailer_host: localhost
+    mailer_user: null
+    mailer_password: null
+    locale: fr
+    secret: 00ad3621f2d6e39e438d484bebd921db3d2fbeff
+    database_path: null

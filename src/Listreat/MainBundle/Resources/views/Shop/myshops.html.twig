@@ -1,0 +1,40 @@
+{% extends '::layout.html.twig' %}
+
+{% block title %}Shops List{% endblock%}
+
+{% block content %}
+<br/>
+<h1>Shops created:</h1>
+
+<div id="item-list">
+    {% for shop in created %}
+        <div class="shop-list">
+            <div>
+                <h3>{{shop.name}}</h3>
+                <p>{{shop.description}}</p>
+            </div>
+            <div>
+                <a href={{path("shops_update", {"shop": shop.id})}}>Éditer</a>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+<br/><br/>
+<h1>Shops followed:</h1>
+
+<div id="item-list">
+    {% for f in followed %}
+        <div class="shop-list">
+            <div>
+                <h3>{{f.shop.name}}</h3>
+                <p>{{f.shop.description}}</p>
+            </div>
+            <div>
+                <a href={{path("shops_display", {"shop": f.shop.id})}}>Entrer</a>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+{% endblock %}
