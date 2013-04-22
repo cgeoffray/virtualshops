@@ -6,30 +6,25 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class ShopType extends AbstractType
+class TagType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             ->add('name')
-            ->add('description')
-            ->add('keywords')
-            ->add('creator')
-            ->add('tags', 'collection', array('type'         => new TagType(),
-                                              'allow_add'    => true,
-                                              'allow_delete' => true))
+            ->add('shops')
         ;
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Listreat\MainBundle\Entity\Shop'
+            'data_class' => 'Listreat\MainBundle\Entity\Tag'
         ));
     }
 
     public function getName()
     {
-        return 'listreat_mainbundle_shoptype';
+        return 'listreat_mainbundle_tagtype';
     }
 }

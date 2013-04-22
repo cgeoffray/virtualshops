@@ -6,6 +6,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Listreat\MainBundle\Form\ShopType;
 use Listreat\MainBundle\Entity\Tag;
+use Listreat\MainBundle\Entity\Shop;
 
 class TagController extends ApiController
 {
@@ -29,15 +30,54 @@ class TagController extends ApiController
     }
     
     /**
-     * @Route("/tags/create/{name}")
+     * @Route("/tags/create/{shop}/{tags}")
      * @Template()
      */
-    public function createAction($name)
+    public function createTagsAction(Shop $shop, $tags)
     {
-        $tag = new Tag;
-        $tag->setName($name);
-        $em = $this->getDoctrine()->getManager();
-        $em->persist($tag);
+        // tags is a string where several tags are separated by ","
+        $tagManager = $this->get('fpn_tag.tag_manager');
+
+        // ask the tag manager to create a Tag object
+        $tagNames = $tagManager->splitTagNames($tags);
+        $fooTag = $tagManager->loadOrCreateTag($tagNames);
+
+        // assign the foo tag to the post
+        $tagManager->addTag($fooTag, $shop);
+
+        $em = $this->getDoctrine()->getEntityManager();
+
+        // persist and flush the new post
+        $em->persist($shop);
         $em->flush();
+
+        // after flushing the post, tell the tag manager to actually save the tags
+        $tagManager->saveTagging($shop);
+
+        // ...
+
+        // Load tagging ...
+        $tagManager->loadTagging($shop);
+    }
+    
+    /**
+     * @Route("/tags/link/{shop}/{name}")
+     * @Template()
+     */
+    public function linkAction(Shop $shop, $name)
+    {
+        $tag = $this->getDoctrine()->getEntityManager()->getRepository('ListreatMainBundle:Tag')
+                ->findOneBy(array('name'=>$name));
+        if (!isset($tag)) {
+            $tag = new Tag;
+            $tag->setName($name);
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($tag);
+            $em->flush();
+        }
+        $shop->addTag($tag);
+        
+        $this->setResponseData($tags);
+        return $this->renderResponse();
     }
 }

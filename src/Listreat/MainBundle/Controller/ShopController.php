@@ -57,6 +57,8 @@ class ShopController extends Controller
     {
         $user = $this->container->get('security.context')->getToken()->getUser();
         
+        $em = $this->getDoctrine()->getEntityManager();
+        
         $shops = $this->getDoctrine()
                ->getRepository('Listreat\MainBundle\Entity\Shop')
                ->findAll();
@@ -65,10 +67,15 @@ class ShopController extends Controller
                ->getRepository('Listreat\UserBundle\Entity\User')
                ->findAll();
         
-        $friends = $this->getDoctrine()->getEntityManager()
-                ->getRepository('ListreatUserBundle:Friend')->getFriendsList($user);
+        $friends = $em->getRepository('ListreatUserBundle:Friend')
+                ->getFriendsList($user);
         
-        return array("shops"=>$shops, "users"=>$users, "friends"=>$friends);
+        $tagRepo = $em->getRepository('DoctrineExtensions\\Taggable\\Entity\\Tag');
+        $tags = $tagRepo->getTagsWithCountArray('article_type');
+        // tags is an array where keys are tags names and values are tags count
+        // use foreach $tags as $name=>$count
+        
+        return array("shops"=>$shops, "users"=>$users, "friends"=>$friends, "tags"=>$tags);
     }
     
     /**
@@ -82,15 +89,15 @@ class ShopController extends Controller
 
         $request = $this->get('request');
         if ($request->getMethod() == 'POST') {
-          $form->bind($request);
+            $form->bind($request);
 
-          if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($shop);
-            $em->flush();
+            if ($form->isValid()) {
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($shop);
+                $em->flush();
 
-            return $this->redirect($this
-                    ->generateUrl('shops_update', array('shop'=>$shop->getId())));
+                return $this->redirect($this
+                        ->generateUrl('shops_update', array('shop'=>$shop->getId())));
           }
         }
         return array("form" => $form->createView());

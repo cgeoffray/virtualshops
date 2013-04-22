@@ -3,6 +3,8 @@
 namespace Listreat\MainBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use DoctrineExtensions\Taggable\Taggable;
 
 /**
  * Shop
@@ -292,6 +294,18 @@ class Shop
      */
     public function getTags()
     {
+        $this->tags = $this->tags ?: new ArrayCollection();
+
         return $this->tags;
+    }
+
+    public function getTaggableType()
+    {
+        return 'shop';
+    }
+
+    public function getTaggableId()
+    {
+        return $this->getId();
     }
 }
