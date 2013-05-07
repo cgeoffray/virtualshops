@@ -10,6 +10,11 @@
   <form method="post" {{ form_enctype(form) }}>
     {{ form_widget(form) }}
     <input type="submit" class="btn btn-primary" />
+    <ul id="Tags">
+        <!-- Existing list items will be pre-added to the tags -->
+        <li>Tag1</li>
+        <li>Tag2</li>
+    </ul>
   </form>
 </div>
 

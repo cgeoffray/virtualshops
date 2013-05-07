@@ -44,8 +44,3 @@ services:
     arguments: [ null, Listreat\MainBundle\Entity\Follow, SonataAdminBundle:CRUD ]
     calls:
       - [ setTranslationDomain, [ ListreatMainBundle ] ]
-
-  fpn_tag:
-    model:
-        tag_class:     Listreat\MainBundle\Entity\Tag
-        tagging_class: Listreat\MainBundle\Entity\Tagging

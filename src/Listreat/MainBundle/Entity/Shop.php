@@ -38,13 +38,6 @@ class Shop
     private $description;
     
     /**
-     * @var string
-     *
-     * @ORM\Column(name="keywords", type="string", length=255, nullable=true)
-     */
-    private $keywords;
-    
-    /**
      * @ORM\OneToMany(targetEntity="Listreat\MainBundle\Entity\Item", cascade={"persist", "remove"}, mappedBy="shop")
      */
     private $items;
@@ -239,29 +232,6 @@ class Shop
     public function getFollowers()
     {
         return $this->followers;
-    }
-
-    /**
-     * Set keywords
-     *
-     * @param string $keywords
-     * @return Shop
-     */
-    public function setKeywords($keywords)
-    {
-        $this->keywords = $keywords;
-    
-        return $this;
-    }
-
-    /**
-     * Get keywords
-     *
-     * @return string 
-     */
-    public function getKeywords()
-    {
-        return $this->keywords;
     }
 
     /**

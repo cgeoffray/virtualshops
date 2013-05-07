@@ -13,7 +13,6 @@ class ShopType extends AbstractType
         $builder
             ->add('name')
             ->add('description')
-            ->add('keywords')
             ->add('creator')
             ->add('tags', 'collection', array('type'         => new TagType(),
                                               'allow_add'    => true,

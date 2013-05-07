@@ -70,8 +70,9 @@ class ShopController extends Controller
         $friends = $em->getRepository('ListreatUserBundle:Friend')
                 ->getFriendsList($user);
         
-        $tagRepo = $em->getRepository('DoctrineExtensions\\Taggable\\Entity\\Tag');
-        $tags = $tagRepo->getTagsWithCountArray('article_type');
+        $tagManager = $this->get('fpn_tag.tag_manager');
+        $tagNames = $tagManager->splitTagNames('Trend, Hipster, Rugby, Cheap, Women');
+        $tags = $tagManager->loadOrCreateTags($tagNames);
         // tags is an array where keys are tags names and values are tags count
         // use foreach $tags as $name=>$count
         
